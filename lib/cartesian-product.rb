@@ -13,7 +13,10 @@ class CartesianProduct
   def each(start_index=0, stop_index=-1)
     start_index = @num_elements + start_index if start_index < 0
     stop_index = @num_elements + stop_index + 1 if stop_index < 0
-    (start_index...stop_index).each { |index| yield(index_to_item(index)) }
+
+    Enumerator.new do |y|
+      (start_index...stop_index).each { |index| y << index_to_item(index) }
+    end
   end
 
   protected
@@ -25,5 +28,4 @@ class CartesianProduct
       element
     end.reverse
   end
-
 end
